@@ -11,10 +11,10 @@
 
 	
 	$q = "SELECT * FROM `meanings` "
-		."WHERE `wordid`='".$_GET["wordid"]."' ";
+		."WHERE `wordid`='".$_GET["wordid"]."' GROUP BY languageid";
         
 
-	$qLlanguages="SELECT * FROM `languages` ";
+	$qLlanguages="SELECT * FROM languages where status = 'A' ";
 	//execute the SQL query and return records
 	$resultLanguages = mysql_query($qLlanguages);
 
