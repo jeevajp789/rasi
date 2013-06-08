@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
+(1, 'shijiltv', 'test', 'shijiltv@gmail.com'),
 (1, 'shijiltv', 'test', 'shijiltv@gmail.com');
 
 -- --------------------------------------------------------

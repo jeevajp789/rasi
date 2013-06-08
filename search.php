@@ -167,7 +167,7 @@ $cols=array('word_id','word','meaning','createdby','comments'
         $sLimit
     ";*/
       $sQuery = "
-        SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+        SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns)).", temp_meanings.languageid 
         FROM   $sTable[0] join $sTable[1] on $sTable[0].id=$sTable[1].word_id  ".
         $sWhere. $sLimit;
      // echo $sQuery;
@@ -185,7 +185,7 @@ $cols=array('word_id','word','meaning','createdby','comments'
     /* Total data set length */
     $sQuery = "
         SELECT COUNT(".$sIndexColumn.")
-        FROM   $sTable[0] join temp_meanings on words.id=temp_meanings.word_id;
+        FROM   $sTable[0] join temp_meanings on words.id=temp_meanings.word_id
     ";
     $rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or fatal_error( 'MySQL Error: ' . mysql_error() );
     $aResultTotal = mysql_fetch_array($rResultTotal);
@@ -200,6 +200,7 @@ $cols=array('word_id','word','meaning','createdby','comments'
         "iTotalRecords" => $iTotal,
         "iTotalDisplayRecords" => $iFilteredTotal,
         "aaData" => array(),
+        "langids"=>array()
         
     );
 
@@ -211,6 +212,7 @@ $cols=array('word_id','word','meaning','createdby','comments'
      $j=1;
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {    
+        $output["langids"]=$aRow["languageid"];
         $row = array();
         
         for ( $i=0 ; $i<count($cols) ; $i++ )

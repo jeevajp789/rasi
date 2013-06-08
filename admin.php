@@ -181,7 +181,8 @@ $(document).ready(function(){
 		   { $wordid=$_POST['wordid'][$j];
                      
                   if($wordid!='')
-		    {
+		    { $langid=$_POST['langid'][$j];
+                       echo "The language id is".$langid;
                       $word=$_POST['word'][$j];
                       $meaning= $_POST['meaning'][$j];
                       $createdby=$_POST['createdby'][$j];
@@ -191,7 +192,7 @@ $(document).ready(function(){
                       if($_POST['decision'][$j]=='approve')
                    {  // echo "you've approved";
                       //echo "wordid is". $wordid;
-                   $q="INSERT INTO meanings (wordid,meaning,createdby,createdon,comments,reference) VALUES        ('$wordid','$meaning','$createdby','$createdon','$comments','$reference')";
+                   /*$q="INSERT INTO meanings (wordid,meaning,createdby,createdon,comments,reference,languageid) VALUES        ('$wordid','$meaning','$createdby','$createdon','$comments','$reference','$langid')";
                       $result = mysql_query($q);
                         if (!$result)
 				{        echo "wrong insert attempt";
@@ -205,7 +206,7 @@ $(document).ready(function(){
 				{          echo "wrong delete attempt";
    					 die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out.
 				}
-                               }
+                               }*/
 
                      
                    }
@@ -228,8 +229,9 @@ $(document).ready(function(){
 		}
 
          }
-        $q="select w.word,w.id,t.meaning,t.createdby,t.modifiedby,t.comments,t.reference,t.createdon,t.remarks from words w join  temp_meanings t on w.id=t.word_id ";
-$i=0;        
+        $q="select w.word,w.id,t.meaning,t.createdby,t.languageid,t.modifiedby,t.comments,t.reference,t.createdon,t.remarks from words w join  temp_meanings t on w.id=t.word_id ";
+$i=0;  
+      
         $result = mysql_query($q);
 //echo "<form id=\"admin\"action=\"?op=save \" method=\"POST\">";
 echo "<form id=\"admin\" method=\"POST\">";
@@ -250,7 +252,8 @@ echo "<table border='1' id=\"rasi-admin\" class=\"dataTable\">
 echo "<tbody>";
 
         while($row = mysql_fetch_array($result)) 
-{ 
+{ echo "<input type=\"hidden\" name=\"langid[]\" value = ".$row['languageid']."/>";
+  echo "Lang id = ".$row['languageid'];
   echo "<tr>";
   echo "<td>"."<input type=\"hidden\" name=\"wordid[]\" value=" . $row['id'] . " /></td>";
   echo "<td>"."<input type=\"text\" name=\"word[]\" value=" . $row['word'] . " /></td>";
